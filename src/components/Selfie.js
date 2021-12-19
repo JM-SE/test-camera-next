@@ -115,20 +115,32 @@ class Selfie extends Component {
                 {this.state.imageURL !== '' && (
                     <div>
                         <div>
-                            <span style={{ fontSize: 40 }}>Image Preview</span>
+                            <span style={{ fontSize: 25 }}>Image Preview</span>
                             <img
                                 src={this.state.imageURL}
                                 ref={this.imageEle}
                                 alt="img"
+                                style={{
+                                    maxWidth: '90%',
+                                    height: 'auto',
+                                    marginTop: '15px',
+                                }}
                             />
                         </div>
 
-                        <div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'flex-start',
+                                marginTop: '20px',
+                            }}
+                        >
                             <button
                                 style={{
-                                    marginTop: '20px',
-                                    width: '25%',
-                                    height: '100px',
+                                    padding: '10px 15px 10px 15px',
+                                    height: '50px',
                                     border: 'none',
                                     borderRadius: 15,
                                     background: '#98d7c2',
@@ -136,14 +148,14 @@ class Selfie extends Component {
                                 }}
                                 onClick={this.backToCam}
                             >
-                                <span style={{ fontSize: 40 }}>
+                                <span style={{ fontSize: 20 }}>
                                     Back to cam
                                 </span>
                             </button>
                             <a
                                 style={{
-                                    margin: '20px 60px',
-                                    fontSize: 40,
+                                    marginLeft: '20px',
+                                    fontSize: 20,
                                 }}
                                 href={this.state.imageURL}
                                 download="selfie.png"
