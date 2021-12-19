@@ -74,8 +74,15 @@ class Selfie extends Component {
 
     render() {
         return (
-            <div style={{ width: '100%' }}>
-                <h1 style={{ margin: '20px' }}>Selfie</h1>
+            <div style={{ width: '100%', background: '#e2eae9' }}>
+                <h1
+                    style={{
+                        margin: '20px 0',
+                        fontSize: 70,
+                    }}
+                >
+                    Selfie
+                </h1>
                 {this.state.imageURL === '' && (
                     <div>
                         <video
@@ -84,7 +91,20 @@ class Selfie extends Component {
                             autoPlay={true}
                             ref={this.videoEle}
                         ></video>
-                        <button onClick={this.takeSelfie}>Take Selfie</button>
+                        <button
+                            style={{
+                                marginTop: '20px',
+                                width: '100%',
+                                height: '100px',
+                                border: 'none',
+                                borderRadius: 15,
+                                background: '#98d7c2',
+                                cursor: 'pointer',
+                            }}
+                            onClick={this.takeSelfie}
+                        >
+                            <span style={{ fontSize: 40 }}>TAKE SELFIE</span>
+                        </button>
                     </div>
                 )}
 
@@ -95,7 +115,7 @@ class Selfie extends Component {
                 {this.state.imageURL !== '' && (
                     <div>
                         <div>
-                            Image Preview
+                            <span style={{ fontSize: 40 }}>Image Preview</span>
                             <img
                                 src={this.state.imageURL}
                                 ref={this.imageEle}
@@ -104,10 +124,30 @@ class Selfie extends Component {
                         </div>
 
                         <div>
-                            <button onClick={this.backToCam}>
-                                Back to Cam
+                            <button
+                                style={{
+                                    marginTop: '20px',
+                                    width: '25%',
+                                    height: '100px',
+                                    border: 'none',
+                                    borderRadius: 15,
+                                    background: '#98d7c2',
+                                    cursor: 'pointer',
+                                }}
+                                onClick={this.backToCam}
+                            >
+                                <span style={{ fontSize: 40 }}>
+                                    Back to cam
+                                </span>
                             </button>
-                            <a href={this.state.imageURL} download="selfie.png">
+                            <a
+                                style={{
+                                    margin: '20px 60px',
+                                    fontSize: 40,
+                                }}
+                                href={this.state.imageURL}
+                                download="selfie.png"
+                            >
                                 Download
                             </a>
                         </div>
