@@ -115,7 +115,9 @@ class Selfie extends Component {
                 {this.state.imageURL !== '' && (
                     <div>
                         <div>
-                            <span style={{ fontSize: 25 }}>Image Preview</span>
+                            <span style={{ fontSize: 25, display: 'block' }}>
+                                Image Preview
+                            </span>
                             <img
                                 src={this.state.imageURL}
                                 ref={this.imageEle}
