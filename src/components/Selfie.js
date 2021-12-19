@@ -74,7 +74,8 @@ class Selfie extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ width: '100%' }}>
+                <h1 style={{ margin: '20px' }}>Selfie</h1>
                 {this.state.imageURL === '' && (
                     <div>
                         <video
@@ -83,7 +84,7 @@ class Selfie extends Component {
                             autoPlay={true}
                             ref={this.videoEle}
                         ></video>
-                        <button onClick={this.takeSelfie}>take selfie</button>
+                        <button onClick={this.takeSelfie}>Take Selfie</button>
                     </div>
                 )}
 
@@ -94,7 +95,7 @@ class Selfie extends Component {
                 {this.state.imageURL !== '' && (
                     <div>
                         <div>
-                            Image preview
+                            Image Preview
                             <img
                                 src={this.state.imageURL}
                                 ref={this.imageEle}
@@ -104,10 +105,10 @@ class Selfie extends Component {
 
                         <div>
                             <button onClick={this.backToCam}>
-                                back to cam
+                                Back to Cam
                             </button>
                             <a href={this.state.imageURL} download="selfie.png">
-                                download
+                                Download
                             </a>
                         </div>
                     </div>
