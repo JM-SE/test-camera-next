@@ -63,6 +63,7 @@ export const Selfie = () => {
                         height="100%"
                         autoPlay={true}
                         ref={videoEle}
+                        style={{ transform: scaleX(-1) }}
                     ></video>
                     <button
                         style={{
