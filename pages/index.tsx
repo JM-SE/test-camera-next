@@ -1,7 +1,8 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import SelfieHooks from '../src/components/SelfieHooks';
+// import SelfieHooks from '../src/components/SelfieHooks';
 
 const Home: NextPage = () => {
     return (
@@ -16,7 +17,11 @@ const Home: NextPage = () => {
             </Head>
 
             <main className={styles.main}>
-                <SelfieHooks />
+                <Link href="/selfie" passHref>
+                    <button style={{ padding: '5px 10px 5px 10px' }}>
+                        Camera test
+                    </button>
+                </Link>
             </main>
         </div>
     );

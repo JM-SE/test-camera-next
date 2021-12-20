@@ -56,14 +56,6 @@ export const Selfie = () => {
 
     return (
         <div style={{ width: '100%', background: '#e2eae9' }}>
-            <h1
-                style={{
-                    margin: '20px 0',
-                    fontSize: 70,
-                }}
-            >
-                Selfie
-            </h1>
             {imageURL === '' && (
                 <div>
                     <video
@@ -76,15 +68,15 @@ export const Selfie = () => {
                         style={{
                             marginTop: '20px',
                             width: '100%',
-                            height: '100px',
+                            height: '80px',
                             border: 'none',
-                            borderRadius: 15,
+                            borderRadius: 10,
                             background: '#98d7c2',
                             cursor: 'pointer',
                         }}
                         onClick={takeSelfie}
                     >
-                        <span style={{ fontSize: 40 }}>TAKE SELFIE</span>
+                        <span style={{ fontSize: 40 }}>TAKE PHOTO</span>
                     </button>
                 </div>
             )}
@@ -122,13 +114,13 @@ export const Selfie = () => {
                                 padding: '10px 15px 10px 15px',
                                 height: '50px',
                                 border: 'none',
-                                borderRadius: 15,
+                                borderRadius: 10,
                                 background: '#98d7c2',
                                 cursor: 'pointer',
                             }}
                             onClick={backToCam}
                         >
-                            <span style={{ fontSize: 20 }}>Back to cam</span>
+                            <span style={{ fontSize: 20 }}>Back</span>
                         </button>
                         <a
                             style={{
