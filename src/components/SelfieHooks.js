@@ -97,6 +97,7 @@ export const Selfie = () => {
                                 maxWidth: '90%',
                                 height: 'auto',
                                 marginTop: '15px',
+                                transform: 'scaleX(-1)',
                             }}
                         />
                     </div>
