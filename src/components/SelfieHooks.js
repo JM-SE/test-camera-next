@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
-export const Selfie = () => {
+export const Selfie = ({ cameraOpen }) => {
     const [imageURL, setImageURL] = useState('');
 
     const videoEle = useRef(null);
@@ -53,6 +53,10 @@ export const Selfie = () => {
     };
 
     useEffect(() => startCamera());
+
+    useLayoutEffect(() => {
+        if (!cameraOpen) stopCam();
+    }, [cameraOpen]);
 
     return (
         <div style={{ width: '100%', background: '#e2eae9' }}>

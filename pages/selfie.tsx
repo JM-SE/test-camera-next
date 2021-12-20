@@ -17,7 +17,7 @@ export const Selfie = () => {
                 >
                     OPEN/CLOSE CAMERA
                 </button>
-                {isCameraOpen && <SelfieHooks />}
+                {isCameraOpen && <SelfieHooks cameraOpen={isCameraOpen} />}
             </main>
         </div>
     );
