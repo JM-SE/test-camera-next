@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import Selfie from '../src/components/Selfie';
+import SelfieHooks from '../src/components/SelfieHooks';
 
 const Home: NextPage = () => {
     return (
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
             </Head>
 
             <main className={styles.main}>
-                <Selfie />
+                <SelfieHooks />
             </main>
         </div>
     );

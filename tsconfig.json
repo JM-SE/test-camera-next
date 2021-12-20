@@ -19,7 +19,8 @@
         "next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
-        "src/components/Selfie.js"
+        "src/components/Selfie.js",
+        "src/components/SelfieHooks.js"
     ],
     "exclude": ["node_modules"]
 }
