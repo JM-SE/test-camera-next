@@ -87,12 +87,7 @@ export const Selfie = ({ cameraOpen }) => {
                         height="100%"
                         autoPlay={true}
                         ref={videoEle}
-                        style={{
-                            transform:
-                                cameraFacingMode === 'user'
-                                    ? 'scaleX(-1)'
-                                    : 'scaleX(0)',
-                        }}
+                        style={{ transform: 'scaleX(-1)' }}
                     ></video>
                     {detectDevice() && (
                         <button
