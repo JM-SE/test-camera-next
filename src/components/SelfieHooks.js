@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
 export const Selfie = ({ cameraOpen }) => {
     const [imageURL, setImageURL] = useState('');
+    const [cameraFacingMode, setCameraFacingMode] = useState('user');
 
     const videoEle = useRef(null);
     const canvasEle = useRef(null);
@@ -11,7 +12,7 @@ export const Selfie = ({ cameraOpen }) => {
     const startCamera = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
+                video: { facingMode: cameraFacingMode },
             });
 
             videoEle.current.srcObject = stream;
@@ -27,6 +28,15 @@ export const Selfie = ({ cameraOpen }) => {
         tracks.forEach((track) => {
             track.stop();
         });
+    };
+
+    const changeFacingMode = () => {
+        stopCam();
+
+        if (cameraFacingMode === 'user') setCameraFacingMode('environment');
+        if (cameraFacingMode === 'environment') setCameraFacingMode('user');
+
+        startCamera();
     };
 
     const takeSelfie = async () => {
@@ -69,6 +79,20 @@ export const Selfie = ({ cameraOpen }) => {
                         ref={videoEle}
                         style={{ transform: 'scaleX(-1)' }}
                     ></video>
+                    <button
+                        style={{
+                            marginTop: '20px',
+                            width: '100%',
+                            height: '40px',
+                            border: 'none',
+                            borderRadius: 10,
+                            background: '#ABAAAA',
+                            cursor: 'pointer',
+                        }}
+                        onClick={changeFacingMode}
+                    >
+                        <span style={{ fontSize: 20 }}>ROTATE CAMERA</span>
+                    </button>
                     <button
                         style={{
                             marginTop: '20px',
