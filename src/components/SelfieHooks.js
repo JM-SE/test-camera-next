@@ -32,12 +32,12 @@ export const Selfie = ({ cameraOpen }) => {
     };
 
     const changeFacingMode = () => {
-        // stopCam();
+        stopCam();
 
         if (cameraFacingMode === 'user') setCameraFacingMode('environment');
         if (cameraFacingMode === 'environment') setCameraFacingMode('user');
 
-        // startCamera();
+        startCamera();
     };
 
     const takeSelfie = async () => {
@@ -87,7 +87,7 @@ export const Selfie = ({ cameraOpen }) => {
                         height="100%"
                         autoPlay={true}
                         ref={videoEle}
-                        style={{ transform: 'scaleX(-1)' }}
+                        // style={{ transform: 'scaleX(-1)' }}
                     ></video>
                     {detectDevice() && (
                         <button
