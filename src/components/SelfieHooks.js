@@ -68,6 +68,15 @@ export const Selfie = ({ cameraOpen }) => {
         if (!cameraOpen) stopCam();
     }, [cameraOpen]);
 
+    const detectDevice = () => {
+        const isMobile = window.matchMedia || window.msMatchMedia;
+        if (isMobile) {
+            const match_mobile = isMobile('(pointer:coarse)');
+            return match_mobile.matches;
+        }
+        return false;
+    };
+
     return (
         <div style={{ width: '100%', background: '#e2eae9' }}>
             {imageURL === '' && (
@@ -79,20 +88,22 @@ export const Selfie = ({ cameraOpen }) => {
                         ref={videoEle}
                         style={{ transform: 'scaleX(-1)' }}
                     ></video>
-                    <button
-                        style={{
-                            marginTop: '20px',
-                            width: '100%',
-                            height: '40px',
-                            border: 'none',
-                            borderRadius: 10,
-                            background: '#ABAAAA',
-                            cursor: 'pointer',
-                        }}
-                        onClick={changeFacingMode}
-                    >
-                        <span style={{ fontSize: 20 }}>ROTATE CAMERA</span>
-                    </button>
+                    {detectDevice() && (
+                        <button
+                            style={{
+                                marginTop: '20px',
+                                width: '100%',
+                                height: '40px',
+                                border: 'none',
+                                borderRadius: 10,
+                                background: '#ABAAAA',
+                                cursor: 'pointer',
+                            }}
+                            onClick={changeFacingMode}
+                        >
+                            <span style={{ fontSize: 20 }}>ROTATE CAMERA</span>
+                        </button>
+                    )}
                     <button
                         style={{
                             marginTop: '20px',
