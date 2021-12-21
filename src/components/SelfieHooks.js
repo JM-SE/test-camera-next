@@ -91,7 +91,7 @@ export const Selfie = ({ cameraOpen }) => {
                             transform:
                                 cameraFacingMode === 'user'
                                     ? 'scaleX(-1)'
-                                    : 'scaleX(1)',
+                                    : 'scaleX(0)',
                         }}
                     ></video>
                     {detectDevice() && (
