@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 export const Selfie = ({ cameraOpen }) => {
     const [imageURL, setImageURL] = useState('');
     const [cameraFacingMode, setCameraFacingMode] = useState('user');
+    const [transformVideo, setTransformVideo] = useState('scaleX(-1)');
 
     const videoEle = useRef(null);
     const canvasEle = useRef(null);
@@ -31,12 +32,12 @@ export const Selfie = ({ cameraOpen }) => {
     };
 
     const changeFacingMode = () => {
-        stopCam();
+        // stopCam();
 
         if (cameraFacingMode === 'user') setCameraFacingMode('environment');
         if (cameraFacingMode === 'environment') setCameraFacingMode('user');
 
-        startCamera();
+        // startCamera();
     };
 
     const takeSelfie = async () => {
@@ -86,12 +87,7 @@ export const Selfie = ({ cameraOpen }) => {
                         height="100%"
                         autoPlay={true}
                         ref={videoEle}
-                        style={{
-                            transform:
-                                cameraFacingMode === 'user'
-                                    ? 'scaleX(-1)'
-                                    : null,
-                        }}
+                        style={{ transform: 'scaleX(-1)' }}
                     ></video>
                     {detectDevice() && (
                         <button
