@@ -4,7 +4,9 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
 export const Selfie = ({ cameraOpen, isFront }) => {
   const [imageURL, setImageURL] = useState('');
-  const [cameraFacingMode, setCameraFacingMode] = useState('environment');
+  const [cameraFacingMode, setCameraFacingMode] = useState(
+    isFront ? 'user' : 'environment'
+  );
   //   const [transformVideo, setTransformVideo] = useState('scaleX(-1)');
 
   const videoEle = useRef(null);
