@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
@@ -31,15 +32,19 @@ export const Selfie = ({ cameraOpen, isFront }) => {
     });
   };
 
+  const reiniciateCamera = (action) => {
+    stopCam();
+    action();
+    startCamera();
+  };
+
   useEffect(() => {
     if (isFront) {
-      setCameraFacingMode('user');
+      reiniciateCamera(setCameraFacingMode('user'));
     } else {
-      setCameraFacingMode('environment');
+      reiniciateCamera(setCameraFacingMode('environment'));
     }
   }, [isFront]);
-
-  console.log(isFront);
 
   //   const changeFacingMode = () => {
   //     stopCam();
