@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
-export const Selfie = ({ cameraOpen }) => {
+export const Selfie = ({ cameraOpen, isFront }) => {
   const [imageURL, setImageURL] = useState('');
   const [cameraFacingMode, setCameraFacingMode] = useState('environment');
   //   const [transformVideo, setTransformVideo] = useState('scaleX(-1)');
@@ -30,6 +30,11 @@ export const Selfie = ({ cameraOpen }) => {
       track.stop();
     });
   };
+
+  useEffect(() => {
+    if (isFront) setCameraFacingMode('user');
+    if (!isFront) setCameraFacingMode('environment');
+  }, [isFront]);
 
   //   const changeFacingMode = () => {
   //     stopCam();
@@ -63,20 +68,23 @@ export const Selfie = ({ cameraOpen }) => {
     startCamera();
   };
 
-  useEffect(() => startCamera());
+  useEffect(() => {
+    startCamera();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useLayoutEffect(() => {
     if (!cameraOpen) stopCam();
   }, [cameraOpen]);
 
-  const detectDevice = () => {
-    const isMobile = window.matchMedia || window.msMatchMedia;
-    if (isMobile) {
-      const match_mobile = isMobile('(pointer:coarse)');
-      return match_mobile.matches;
-    }
-    return false;
-  };
+  //   const detectDevice = () => {
+  //     const isMobile = window.matchMedia || window.msMatchMedia;
+  //     if (isMobile) {
+  //       const match_mobile = isMobile('(pointer:coarse)');
+  //       return match_mobile.matches;
+  //     }
+  //     return false;
+  //   };
 
   return (
     <div style={{ width: '100%', background: '#e2eae9' }}>
@@ -91,7 +99,7 @@ export const Selfie = ({ cameraOpen }) => {
               transform: cameraFacingMode === 'user' ? 'scaleX(-1)' : null,
             }}
           ></video>
-          {detectDevice() && (
+          {/* {detectDevice() && (
             <button
               style={{
                 marginTop: '20px',
@@ -102,11 +110,11 @@ export const Selfie = ({ cameraOpen }) => {
                 background: '#ABAAAA',
                 cursor: 'pointer',
               }}
-              //   onClick={changeFacingMode}
+                onClick={changeFacingMode}
             >
               <span style={{ fontSize: 20 }}>Rotar camara</span>
             </button>
-          )}
+          )} */}
           <button
             style={{
               marginTop: '20px',
