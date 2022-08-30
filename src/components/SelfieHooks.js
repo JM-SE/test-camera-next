@@ -32,17 +32,17 @@ export const Selfie = ({ cameraOpen, isFront }) => {
     });
   };
 
-  const reiniciateCamera = (action) => {
-    stopCam();
-    setCameraFacingMode(action);
-    startCamera();
-  };
+  //   const reiniciateCamera = (action) => {
+  //     stopCam();
+  //     setCameraFacingMode(action);
+  //     startCamera();
+  //   };
 
   useEffect(() => {
     if (isFront) {
-      reiniciateCamera('user');
+      setCameraFacingMode('user');
     } else {
-      reiniciateCamera('environment');
+      setCameraFacingMode('environment');
     }
   }, [isFront]);
 
@@ -78,12 +78,10 @@ export const Selfie = ({ cameraOpen, isFront }) => {
     startCamera();
   };
 
-  useEffect(() => {
-    startCamera();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   useEffect(() => {}, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (cameraOpen) startCamera();
     if (!cameraOpen) stopCam();
   }, [cameraOpen]);
 
