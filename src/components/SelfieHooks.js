@@ -78,6 +78,8 @@ export const Selfie = ({ cameraOpen }) => {
     return false;
   };
 
+  console.log(cameraFacingMode);
+
   return (
     <div style={{ width: '100%', background: '#e2eae9' }}>
       {imageURL === '' && (
@@ -88,7 +90,7 @@ export const Selfie = ({ cameraOpen }) => {
             autoPlay={true}
             ref={videoEle}
             style={{
-              transform: `scaleX(${cameraFacingMode === 'user' ? '-1' : null})`,
+              transform: cameraFacingMode === 'user' ? 'scaleX(-1)' : null,
             }}
           ></video>
           {detectDevice() && (
