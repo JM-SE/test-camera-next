@@ -32,9 +32,14 @@ export const Selfie = ({ cameraOpen, isFront }) => {
   };
 
   useEffect(() => {
-    if (isFront) setCameraFacingMode('user');
-    if (!isFront) setCameraFacingMode('environment');
+    if (isFront) {
+      setCameraFacingMode('user');
+    } else {
+      setCameraFacingMode('environment');
+    }
   }, [isFront]);
+
+  console.log(isFront);
 
   //   const changeFacingMode = () => {
   //     stopCam();
