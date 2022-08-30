@@ -3,8 +3,8 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
 export const Selfie = ({ cameraOpen }) => {
   const [imageURL, setImageURL] = useState('');
-  const [cameraFacingMode, setCameraFacingMode] = useState('user');
-  const [transformVideo, setTransformVideo] = useState('scaleX(-1)');
+  const [cameraFacingMode, setCameraFacingMode] = useState('environment');
+  //   const [transformVideo, setTransformVideo] = useState('scaleX(-1)');
 
   const videoEle = useRef(null);
   const canvasEle = useRef(null);
@@ -31,14 +31,14 @@ export const Selfie = ({ cameraOpen }) => {
     });
   };
 
-  const changeFacingMode = () => {
-    stopCam();
+  //   const changeFacingMode = () => {
+  //     stopCam();
 
-    if (cameraFacingMode === 'user') setCameraFacingMode('environment');
-    if (cameraFacingMode === 'environment') setCameraFacingMode('user');
+  //     if (cameraFacingMode === 'user') setCameraFacingMode('environment');
+  //     if (cameraFacingMode === 'environment') setCameraFacingMode('user');
 
-    startCamera();
-  };
+  //     startCamera();
+  //   };
 
   const takeSelfie = async () => {
     const width = videoEle.current.videoWidth;
@@ -78,8 +78,6 @@ export const Selfie = ({ cameraOpen }) => {
     return false;
   };
 
-  console.log(cameraFacingMode);
-
   return (
     <div style={{ width: '100%', background: '#e2eae9' }}>
       {imageURL === '' && (
@@ -104,7 +102,7 @@ export const Selfie = ({ cameraOpen }) => {
                 background: '#ABAAAA',
                 cursor: 'pointer',
               }}
-              onClick={changeFacingMode}
+              //   onClick={changeFacingMode}
             >
               <span style={{ fontSize: 20 }}>Rotar camara</span>
             </button>
