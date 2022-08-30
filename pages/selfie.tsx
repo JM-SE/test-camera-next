@@ -42,9 +42,9 @@ export const Selfie = () => {
           Rotar camara
         </button>
         <div>Camara actual: {isFront ? 'Frontal' : 'Trasera'}</div>
-        {isCameraOpen && (
-          <SelfieHooks cameraOpen={isCameraOpen} isFront={isFront} />
-        )}
+        {/* {isCameraOpen && ( */}
+        <SelfieHooks cameraOpen={isCameraOpen} isFront={isFront} />
+        {/* )} */}
       </main>
     </div>
   );

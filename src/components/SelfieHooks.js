@@ -48,6 +48,11 @@ export const Selfie = ({ cameraOpen, isFront }) => {
     }
   }, [isFront]);
 
+  useEffect(() => {
+    if (cameraOpen) startCamera();
+    if (!cameraOpen) stopCam();
+  }, [cameraOpen]);
+
   //   const changeFacingMode = () => {
   //     stopCam();
 
@@ -81,11 +86,6 @@ export const Selfie = ({ cameraOpen, isFront }) => {
   };
 
   //   useEffect(() => {}, []);
-
-  useEffect(() => {
-    if (cameraOpen) startCamera();
-    if (!cameraOpen) stopCam();
-  }, [cameraOpen]);
 
   //   const detectDevice = () => {
   //     const isMobile = window.matchMedia || window.msMatchMedia;
@@ -141,7 +141,6 @@ export const Selfie = ({ cameraOpen, isFront }) => {
           </button>
         </div>
       )}
-
       <canvas ref={canvasEle} style={{ display: 'none' }}></canvas>
       {imageURL !== '' && (
         <div>
