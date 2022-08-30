@@ -2,183 +2,183 @@
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 
 export const Selfie = ({ cameraOpen }) => {
-    const [imageURL, setImageURL] = useState('');
-    const [cameraFacingMode, setCameraFacingMode] = useState('user');
-    const [transformVideo, setTransformVideo] = useState('scaleX(-1)');
+  const [imageURL, setImageURL] = useState('');
+  const [cameraFacingMode, setCameraFacingMode] = useState('user');
+  const [transformVideo, setTransformVideo] = useState('scaleX(-1)');
 
-    const videoEle = useRef(null);
-    const canvasEle = useRef(null);
-    const imageEle = useRef(null);
+  const videoEle = useRef(null);
+  const canvasEle = useRef(null);
+  const imageEle = useRef(null);
 
-    const startCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: cameraFacingMode },
-            });
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: cameraFacingMode },
+      });
 
-            videoEle.current.srcObject = stream;
-        } catch (err) {
-            console.error(err);
-        }
-    };
+      videoEle.current.srcObject = stream;
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    const stopCam = () => {
-        const stream = videoEle.current.srcObject;
-        const tracks = stream.getTracks();
+  const stopCam = () => {
+    const stream = videoEle.current.srcObject;
+    const tracks = stream.getTracks();
 
-        tracks.forEach((track) => {
-            track.stop();
-        });
-    };
+    tracks.forEach((track) => {
+      track.stop();
+    });
+  };
 
-    const changeFacingMode = () => {
-        stopCam();
+  const changeFacingMode = () => {
+    stopCam();
 
-        if (cameraFacingMode === 'user') setCameraFacingMode('environment');
-        if (cameraFacingMode === 'environment') setCameraFacingMode('user');
+    if (cameraFacingMode === 'user') setCameraFacingMode('environment');
+    if (cameraFacingMode === 'environment') setCameraFacingMode('user');
 
-        startCamera();
-    };
+    startCamera();
+  };
 
-    const takeSelfie = async () => {
-        const width = videoEle.current.videoWidth;
-        const height = videoEle.current.videoHeight;
+  const takeSelfie = async () => {
+    const width = videoEle.current.videoWidth;
+    const height = videoEle.current.videoHeight;
 
-        const ctx = canvasEle.current.getContext('2d');
+    const ctx = canvasEle.current.getContext('2d');
 
-        canvasEle.current.width = width;
-        canvasEle.current.height = height;
+    canvasEle.current.width = width;
+    canvasEle.current.height = height;
 
-        ctx.drawImage(videoEle.current, 0, 0, width, height);
+    ctx.drawImage(videoEle.current, 0, 0, width, height);
 
-        const imageDataURL = canvasEle.current.toDataURL('image/png');
+    const imageDataURL = canvasEle.current.toDataURL('image/png');
 
-        stopCam();
+    stopCam();
 
-        setImageURL(imageDataURL);
-    };
+    setImageURL(imageDataURL);
+  };
 
-    const backToCam = () => {
-        setImageURL('');
-        startCamera();
-    };
+  const backToCam = () => {
+    setImageURL('');
+    startCamera();
+  };
 
-    useEffect(() => startCamera());
+  useEffect(() => startCamera());
 
-    useLayoutEffect(() => {
-        if (!cameraOpen) stopCam();
-    }, [cameraOpen]);
+  useLayoutEffect(() => {
+    if (!cameraOpen) stopCam();
+  }, [cameraOpen]);
 
-    const detectDevice = () => {
-        const isMobile = window.matchMedia || window.msMatchMedia;
-        if (isMobile) {
-            const match_mobile = isMobile('(pointer:coarse)');
-            return match_mobile.matches;
-        }
-        return false;
-    };
+  const detectDevice = () => {
+    const isMobile = window.matchMedia || window.msMatchMedia;
+    if (isMobile) {
+      const match_mobile = isMobile('(pointer:coarse)');
+      return match_mobile.matches;
+    }
+    return false;
+  };
 
-    return (
-        <div style={{ width: '100%', background: '#e2eae9' }}>
-            {imageURL === '' && (
-                <div>
-                    <video
-                        width="100%"
-                        height="100%"
-                        autoPlay={true}
-                        ref={videoEle}
-                        style={{ transform: 'scaleX(-1)' }}
-                    ></video>
-                    {detectDevice() && (
-                        <button
-                            style={{
-                                marginTop: '20px',
-                                width: '100%',
-                                height: '40px',
-                                border: 'none',
-                                borderRadius: 10,
-                                background: '#ABAAAA',
-                                cursor: 'pointer',
-                            }}
-                            onClick={changeFacingMode}
-                        >
-                            <span style={{ fontSize: 20 }}>ROTATE CAMERA</span>
-                        </button>
-                    )}
-                    <button
-                        style={{
-                            marginTop: '20px',
-                            width: '100%',
-                            height: '80px',
-                            border: 'none',
-                            borderRadius: 10,
-                            background: '#98d7c2',
-                            cursor: 'pointer',
-                        }}
-                        onClick={takeSelfie}
-                    >
-                        <span style={{ fontSize: 40 }}>TAKE PHOTO</span>
-                    </button>
-                </div>
-            )}
-
-            <canvas ref={canvasEle} style={{ display: 'none' }}></canvas>
-            {imageURL !== '' && (
-                <div>
-                    <div>
-                        <span style={{ fontSize: 25, display: 'block' }}>
-                            Image Preview
-                        </span>
-                        <img
-                            src={imageURL}
-                            ref={imageEle}
-                            alt="img"
-                            style={{
-                                maxWidth: '90%',
-                                height: 'auto',
-                                marginTop: '15px',
-                                transform: 'scaleX(-1)',
-                            }}
-                        />
-                    </div>
-
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'flex-start',
-                            marginTop: '20px',
-                        }}
-                    >
-                        <button
-                            style={{
-                                padding: '10px 15px 10px 15px',
-                                height: '50px',
-                                border: 'none',
-                                borderRadius: 10,
-                                background: '#98d7c2',
-                                cursor: 'pointer',
-                            }}
-                            onClick={backToCam}
-                        >
-                            <span style={{ fontSize: 20 }}>Back</span>
-                        </button>
-                        <a
-                            style={{
-                                marginLeft: '20px',
-                                fontSize: 20,
-                            }}
-                            href={imageURL}
-                            download="selfie.png"
-                        >
-                            Download
-                        </a>
-                    </div>
-                </div>
-            )}
+  return (
+    <div style={{ width: '100%', background: '#e2eae9' }}>
+      {imageURL === '' && (
+        <div>
+          <video
+            width="100%"
+            height="100%"
+            autoPlay={true}
+            ref={videoEle}
+            // style={{ transform: 'scaleX(-1)', transform: rotateY('180deg') }}
+          ></video>
+          {detectDevice() && (
+            <button
+              style={{
+                marginTop: '20px',
+                width: '100%',
+                height: '40px',
+                border: 'none',
+                borderRadius: 10,
+                background: '#ABAAAA',
+                cursor: 'pointer',
+              }}
+              onClick={changeFacingMode}
+            >
+              <span style={{ fontSize: 20 }}>Rotar camara</span>
+            </button>
+          )}
+          <button
+            style={{
+              marginTop: '20px',
+              width: '100%',
+              height: '80px',
+              border: 'none',
+              borderRadius: 10,
+              background: '#98d7c2',
+              cursor: 'pointer',
+            }}
+            onClick={takeSelfie}
+          >
+            <span style={{ fontSize: 40 }}>Sacar foto</span>
+          </button>
         </div>
-    );
+      )}
+
+      <canvas ref={canvasEle} style={{ display: 'none' }}></canvas>
+      {imageURL !== '' && (
+        <div>
+          <div>
+            <span style={{ fontSize: 25, display: 'block' }}>
+              Preview imagen
+            </span>
+            <img
+              src={imageURL}
+              ref={imageEle}
+              alt="img"
+              style={{
+                maxWidth: '90%',
+                height: 'auto',
+                marginTop: '15px',
+                transform: 'scaleX(-1)',
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              marginTop: '20px',
+            }}
+          >
+            <button
+              style={{
+                padding: '10px 15px 10px 15px',
+                height: '50px',
+                border: 'none',
+                borderRadius: 10,
+                background: '#98d7c2',
+                cursor: 'pointer',
+              }}
+              onClick={backToCam}
+            >
+              <span style={{ fontSize: 20 }}>Volver</span>
+            </button>
+            <a
+              style={{
+                marginLeft: '20px',
+                fontSize: 20,
+              }}
+              href={imageURL}
+              download="selfie.png"
+            >
+              Descargar
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Selfie;
