@@ -41,6 +41,7 @@ export const Selfie = ({ cameraOpen, isFront }) => {
   useEffect(() => {
     if (isFront) {
       reiniciateCamera('user');
+    } else {
       reiniciateCamera('environment');
     }
   }, [isFront]);
