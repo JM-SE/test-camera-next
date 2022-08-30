@@ -116,7 +116,7 @@ export const Selfie = ({ cameraOpen, isFront }) => {
                 maxWidth: '90%',
                 height: 'auto',
                 marginTop: '15px',
-                transform: 'scaleX(-1)',
+                transform: cameraFacingMode === 'user' ? 'scaleX(-1)' : null,
               }}
             />
           </div>
