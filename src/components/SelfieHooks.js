@@ -105,8 +105,8 @@ export const Selfie = ({ cameraOpen, isFront }) => {
       {imageURL !== '' && (
         <div>
           <div>
-            <span style={{ fontSize: 25, display: 'block' }}>
-              Preview imagen
+            <span style={{ fontSize: 25, display: 'block', marginTop: 20 }}>
+              Captura
             </span>
             <img
               src={imageURL}
