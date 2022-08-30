@@ -25,24 +25,23 @@ export const Selfie = ({ cameraOpen, isFront }) => {
 
   const stopCam = () => {
     const stream = videoEle.current.srcObject;
-    const tracks = stream.getTracks();
+    const tracks = stream?.getTracks();
 
-    tracks.forEach((track) => {
+    tracks?.forEach((track) => {
       track.stop();
     });
   };
 
   const reiniciateCamera = (action) => {
     stopCam();
-    action();
+    setCameraFacingMode(action);
     startCamera();
   };
 
   useEffect(() => {
     if (isFront) {
-      reiniciateCamera(setCameraFacingMode('user'));
-    } else {
-      reiniciateCamera(setCameraFacingMode('environment'));
+      reiniciateCamera('user');
+      reiniciateCamera('environment');
     }
   }, [isFront]);
 
