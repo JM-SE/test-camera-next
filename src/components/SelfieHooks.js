@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export const Selfie = ({ cameraOpen, isFront }) => {
   const [imageURL, setImageURL] = useState('');
   const [cameraFacingMode, setCameraFacingMode] = useState(
     isFront ? 'user' : 'environment'
   );
-  //   const [transformVideo, setTransformVideo] = useState('scaleX(-1)');
 
   const videoEle = useRef(null);
   const canvasEle = useRef(null);
@@ -34,12 +33,6 @@ export const Selfie = ({ cameraOpen, isFront }) => {
     });
   };
 
-  //   const reiniciateCamera = (action) => {
-  //     stopCam();
-  //     setCameraFacingMode(action);
-  //     startCamera();
-  //   };
-
   useEffect(() => {
     if (isFront) {
       setCameraFacingMode('user');
@@ -49,18 +42,12 @@ export const Selfie = ({ cameraOpen, isFront }) => {
   }, [isFront]);
 
   useEffect(() => {
-    if (cameraOpen) startCamera();
-    if (!cameraOpen) stopCam();
+    if (cameraOpen) {
+      startCamera();
+    } else {
+      stopCam();
+    }
   }, [cameraOpen]);
-
-  //   const changeFacingMode = () => {
-  //     stopCam();
-
-  //     if (cameraFacingMode === 'user') setCameraFacingMode('environment');
-  //     if (cameraFacingMode === 'environment') setCameraFacingMode('user');
-
-  //     startCamera();
-  //   };
 
   const takeSelfie = async () => {
     const width = videoEle.current.videoWidth;
@@ -85,17 +72,6 @@ export const Selfie = ({ cameraOpen, isFront }) => {
     startCamera();
   };
 
-  //   useEffect(() => {}, []);
-
-  //   const detectDevice = () => {
-  //     const isMobile = window.matchMedia || window.msMatchMedia;
-  //     if (isMobile) {
-  //       const match_mobile = isMobile('(pointer:coarse)');
-  //       return match_mobile.matches;
-  //     }
-  //     return false;
-  //   };
-
   return (
     <div style={{ width: '100%', background: '#e2eae9' }}>
       {imageURL === '' && (
@@ -109,23 +85,8 @@ export const Selfie = ({ cameraOpen, isFront }) => {
               transform: cameraFacingMode === 'user' ? 'scaleX(-1)' : null,
             }}
           ></video>
-          {/* {detectDevice() && (
-            <button
-              style={{
-                marginTop: '20px',
-                width: '100%',
-                height: '40px',
-                border: 'none',
-                borderRadius: 10,
-                background: '#ABAAAA',
-                cursor: 'pointer',
-              }}
-                onClick={changeFacingMode}
-            >
-              <span style={{ fontSize: 20 }}>Rotar camara</span>
-            </button>
-          )} */}
           <button
+            disabled={!cameraOpen}
             style={{
               marginTop: '20px',
               width: '100%',
@@ -133,7 +94,6 @@ export const Selfie = ({ cameraOpen, isFront }) => {
               border: 'none',
               borderRadius: 10,
               background: '#98d7c2',
-              cursor: 'pointer',
             }}
             onClick={takeSelfie}
           >
