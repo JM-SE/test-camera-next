@@ -1,8 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { useState, useRef, useEffect } from 'react';
+import { testDataRENAPER } from '../constants/testDataRENAPER';
 
 export const Selfie = ({ cameraOpen, isFront }) => {
+  const [renaperValid, setRenaperValid] = useState(null);
+  const [transactionControlNumber, setTransactionControlNumber] = useState('');
+  const [dni, setDni] = useState('');
+  const [gender, setGender] = useState('M');
+
   const [imageURL, setImageURL] = useState('');
   const [cameraFacingMode, setCameraFacingMode] = useState(
     isFront ? 'user' : 'environment'
@@ -67,10 +73,80 @@ export const Selfie = ({ cameraOpen, isFront }) => {
     setImageURL(imageDataURL);
   };
 
+  // console.log(imageURL.split(',')[1]);
+
   const backToCam = () => {
     setImageURL('');
     startCamera();
   };
+
+  const postDataRenaper = async () => {
+    try {
+      const { imagen, dni, sexo } = testDataRENAPER;
+
+      const response = await fetch(
+        'https://apirenaper.idear.gov.ar/CHUTROFINAL/API_ABIS/apiInline_v3.php',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI2NTE5MDMsImV4cCI6MTY2MjY5MjM5OX0.g0BrIFm-1PFY00bk7zJGyODvO5q7Nj5KQEdWu3iwTL8`,
+            Cookie: 'PHPSESSID=a6c6fccdc6449cd5ade54ddbcc4b751a',
+          },
+          body: JSON.stringify({ imagen, dni, sexo }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data?.data.notificacion.transactionControlNumber) {
+        return setTransactionControlNumber(
+          data.data.notificacion.transactionControlNumber
+        );
+      }
+
+      return console.log(data.data.mensaje);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getDataRenaper = async () => {
+    try {
+      const response = await fetch(
+        `https://apirenaper.idear.gov.ar/CHUTROFINAL/API_ABIS/resultadoTCN.php?id=${transactionControlNumber}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI2NTE5MDMsImV4cCI6MTY2MjY5MjM5OX0.g0BrIFm-1PFY00bk7zJGyODvO5q7Nj5KQEdWu3iwTL8`,
+            Cookie: 'PHPSESSID=a6c6fccdc6449cd5ade54ddbcc4b751a',
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data?.data.mensaje === 'OK') {
+        return setRenaperValid(true);
+      }
+
+      return setRenaperValid(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (transactionControlNumber) {
+      getDataRenaper();
+    }
+  }, [transactionControlNumber]);
+
+  console.log(transactionControlNumber);
+  console.log(renaperValid);
+  console.log(dni);
+  console.log(gender);
 
   return (
     <div style={{ width: '100%', background: '#e2eae9' }}>
@@ -122,6 +198,30 @@ export const Selfie = ({ cameraOpen, isFront }) => {
           </div>
 
           <div
+            onChange={(e) => {
+              setGender(e.target.value);
+            }}
+          >
+            <label style={{ marginRight: 5 }}>Sexo:</label>
+            <select name="gender" id="gender">
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+              <option value="X">No binario</option>
+            </select>
+          </div>
+
+          <div style={{ marginTop: '15px' }}>
+            <label style={{ marginRight: 5 }}>DNI:</label>
+            <input
+              type="text"
+              id="dni"
+              name="dni"
+              value={dni}
+              onChange={(e) => setDni(e.target.value)}
+            />
+          </div>
+
+          <div
             style={{
               display: 'flex',
               flexDirection: 'row',
@@ -143,6 +243,20 @@ export const Selfie = ({ cameraOpen, isFront }) => {
             >
               <span style={{ fontSize: 20 }}>Volver</span>
             </button>
+            <button
+              style={{
+                marginLeft: '20px',
+                fontSize: 20,
+              }}
+              onClick={postDataRenaper}
+            >
+              Check RENAPER
+            </button>
+            {renaperValid && (
+              <div style={{ padding: '0 10px 0 10px' }}>
+                VALIDACION RENAPER OK
+              </div>
+            )}
             <a
               style={{
                 marginLeft: '20px',

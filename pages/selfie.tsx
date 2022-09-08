@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css';
 
 export const Selfie = () => {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
-  const [isFront, setIsFront] = useState(false);
+  const [isFront, setIsFront] = useState(true);
 
   return (
     <div className={styles.container}>
