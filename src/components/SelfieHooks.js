@@ -254,10 +254,16 @@ export const Selfie = ({ cameraOpen, isFront }) => {
             >
               Check RENAPER
             </button>
-            {renaperValid && (
+            {renaperValid ? (
               <div style={{ padding: '0 10px 0 10px' }}>
                 VALIDACION RENAPER OK
               </div>
+            ) : (
+              renaperValid === false && (
+                <div style={{ padding: '0 10px 0 10px' }}>
+                  NO PUDO SER VALIDADO
+                </div>
+              )
             )}
             <a
               style={{
