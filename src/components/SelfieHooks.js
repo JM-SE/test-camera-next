@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { useState, useRef, useEffect } from 'react';
-import { testDataRENAPER } from '../constants/testDataRENAPER';
+// import { testDataRENAPER } from '../constants/testDataRENAPER';
 
 export const Selfie = ({ cameraOpen, isFront }) => {
   const [renaperValid, setRenaperValid] = useState(null);
@@ -73,8 +73,6 @@ export const Selfie = ({ cameraOpen, isFront }) => {
     setImageURL(imageDataURL);
   };
 
-  // console.log(imageURL.split(',')[1]);
-
   const backToCam = () => {
     setImageURL('');
     startCamera();
@@ -82,7 +80,7 @@ export const Selfie = ({ cameraOpen, isFront }) => {
 
   const postDataRenaper = async () => {
     try {
-      const { imagen, dni, sexo } = testDataRENAPER;
+      // const { imagen, dni, sexo } = testDataRENAPER;
 
       const response = await fetch(
         'https://apirenaper.idear.gov.ar/CHUTROFINAL/API_ABIS/apiInline_v3.php',
@@ -93,7 +91,16 @@ export const Selfie = ({ cameraOpen, isFront }) => {
             Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI2NTE5MDMsImV4cCI6MTY2MjY5MjM5OX0.g0BrIFm-1PFY00bk7zJGyODvO5q7Nj5KQEdWu3iwTL8`,
             Cookie: 'PHPSESSID=a6c6fccdc6449cd5ade54ddbcc4b751a',
           },
-          body: JSON.stringify({ imagen, dni, sexo }),
+          // body: JSON.stringify({
+          //   imagen,
+          //   dni,
+          //   sexo,
+          // }),
+          body: JSON.stringify({
+            imagen: imageURL.split(',')[1],
+            dni,
+            sexo: gender,
+          }),
         }
       );
 
@@ -142,11 +149,6 @@ export const Selfie = ({ cameraOpen, isFront }) => {
       getDataRenaper();
     }
   }, [transactionControlNumber]);
-
-  console.log(transactionControlNumber);
-  console.log(renaperValid);
-  console.log(dni);
-  console.log(gender);
 
   return (
     <div style={{ width: '100%', background: '#e2eae9' }}>
