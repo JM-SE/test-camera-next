@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 // import { testDataRENAPER } from '../constants/testDataRENAPER';
+import { StoreStateContext } from '../store/Store';
 
 export const Selfie = ({ cameraOpen, isFront }) => {
   const [renaperValid, setRenaperValid] = useState(null);
@@ -13,6 +14,8 @@ export const Selfie = ({ cameraOpen, isFront }) => {
   const [cameraFacingMode, setCameraFacingMode] = useState(
     isFront ? 'user' : 'environment'
   );
+
+  const { token } = useContext(StoreStateContext);
 
   const videoEle = useRef(null);
   const canvasEle = useRef(null);
@@ -77,6 +80,11 @@ export const Selfie = ({ cameraOpen, isFront }) => {
 
   const backToCam = () => {
     setImageURL('');
+    setDni('');
+    setGender('M');
+    setRenaperValid(null);
+    setTransactionControlNumber('');
+
     startCamera();
   };
 
@@ -90,7 +98,7 @@ export const Selfie = ({ cameraOpen, isFront }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI3MzI1ODksImV4cCI6MTY2Mjc3ODc5OX0.pdckgtXGfhFP5cWtETi3CPVYQ6kx9d0Ys-HcFBtBe8U`,
+            Authorization: `Bearer ${token}`,
             Cookie: 'PHPSESSID=a6c6fccdc6449cd5ade54ddbcc4b751a',
           },
           // body: JSON.stringify({
@@ -130,7 +138,7 @@ export const Selfie = ({ cameraOpen, isFront }) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI3MzI1ODksImV4cCI6MTY2Mjc3ODc5OX0.pdckgtXGfhFP5cWtETi3CPVYQ6kx9d0Ys-HcFBtBe8U`,
+            Authorization: `Bearer ${token}`,
             Cookie: 'PHPSESSID=a6c6fccdc6449cd5ade54ddbcc4b751a',
           },
         }
