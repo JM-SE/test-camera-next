@@ -68,6 +68,8 @@ export const Selfie = ({ cameraOpen, isFront }) => {
 
     const imageDataURL = canvasEle.current.toDataURL('image/png');
 
+    console.log(imageDataURL.split(',')[1]);
+
     stopCam();
 
     setImageURL(imageDataURL);
@@ -88,7 +90,7 @@ export const Selfie = ({ cameraOpen, isFront }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI2NTE5MDMsImV4cCI6MTY2MjY5MjM5OX0.g0BrIFm-1PFY00bk7zJGyODvO5q7Nj5KQEdWu3iwTL8`,
+            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI3MzI1ODksImV4cCI6MTY2Mjc3ODc5OX0.pdckgtXGfhFP5cWtETi3CPVYQ6kx9d0Ys-HcFBtBe8U`,
             Cookie: 'PHPSESSID=a6c6fccdc6449cd5ade54ddbcc4b751a',
           },
           // body: JSON.stringify({
@@ -106,13 +108,15 @@ export const Selfie = ({ cameraOpen, isFront }) => {
 
       const data = await response.json();
 
+      console.log(data);
+
       if (data?.data.notificacion.transactionControlNumber) {
         return setTransactionControlNumber(
           data.data.notificacion.transactionControlNumber
         );
       }
 
-      return console.log(data.data.mensaje);
+      return setRenaperValid(false);
     } catch (error) {
       console.error(error);
     }
@@ -126,7 +130,7 @@ export const Selfie = ({ cameraOpen, isFront }) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI2NTE5MDMsImV4cCI6MTY2MjY5MjM5OX0.g0BrIFm-1PFY00bk7zJGyODvO5q7Nj5KQEdWu3iwTL8`,
+            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIzMjM2IiwidXNlck5hbWUiOiJzY3Jvc3Ryb3RzdCIsInByb3ZpbmNpYUlkIjpudWxsLCJuYmYiOjE2NjI3MzI1ODksImV4cCI6MTY2Mjc3ODc5OX0.pdckgtXGfhFP5cWtETi3CPVYQ6kx9d0Ys-HcFBtBe8U`,
             Cookie: 'PHPSESSID=a6c6fccdc6449cd5ade54ddbcc4b751a',
           },
         }
@@ -134,7 +138,9 @@ export const Selfie = ({ cameraOpen, isFront }) => {
 
       const data = await response.json();
 
-      if (data?.data.mensaje === 'OK') {
+      console.log(data);
+
+      if (data?.data.notificacion.status === 'HIT') {
         return setRenaperValid(true);
       }
 
